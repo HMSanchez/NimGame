@@ -1,0 +1,131 @@
+﻿<Window x:Class="GameOfNim.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GameOfNim"
+        mc:Ignorable="d"
+        Title="NIM" Height="350" Width="525">
+    <Grid>
+        <Grid x:Name="SetUpGrid" Visibility="Visible">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75*" />
+                <ColumnDefinition Width="40*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel x:Name="setupColumn"
+                        Grid.Column="0"
+                        Background="Coral">
+                <TextBlock FontSize="18"
+                           HorizontalAlignment="Center"
+                           FontWeight="Bold"
+                           Margin="0 15 0 0">Game of Nim Set-Up Page</TextBlock>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" FontWeight="Bold" Margin="10 10">Gamemode:</TextBlock>
+                    <ComboBox x:Name="modeSelect" Margin="10 10" MinWidth="100" SelectionChanged="PVPSelectedIndexChanged">
+                        <ComboBoxItem>PVP</ComboBoxItem>
+                        <ComboBoxItem>PVC</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" FontWeight="Bold" Padding="0 2 0 0"  Margin="10 10">Player 1:</TextBlock>
+                    <TextBox x:Name="p_one_name" Width="100" Height="25" Padding="0 2 0 0" Margin="15 10">Player 1 Name</TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label x:Name="Player_Two_Label" FontSize="14" FontWeight="Bold" Padding="0 2 0 0" Margin="10 10">Player 2:</Label>
+                    <TextBox x:Name="p_two_name" Width="100" Height="25" Padding="0 2 0 0" Margin="15 10" >Player 2 Name</TextBox>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <TextBlock FontSize="14" FontWeight="Bold" Padding="0 2 0 0" Margin="10 10">Difficulty:</TextBlock>
+                    <ComboBox x:Name="diffSelect" Margin="10 10" MinWidth="100">
+                        <ComboBoxItem IsSelected="True">Easy</ComboBoxItem>
+                        <ComboBoxItem>Medium</ComboBoxItem>
+                        <ComboBoxItem>Hard</ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <Button x:Name="startButton"
+                        Click="StartButton_Click"
+                        MaxWidth="150"
+                        Height="35"
+                        Margin="0 50 0 0">Start Game</Button>
+            </StackPanel>
+            <StackPanel Grid.Column="1">
+                <Label FontSize="16" FontWeight="Bold" FontStyle="Italic">Rules of Nim:</Label>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">1.Each player takes any amount of matches from one row.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">2.You can only take matches from the row you pick at first and ONLY that row.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">3.The next player takes their turn.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">4.The player who takes the last match loses.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">*Computer automatically takes their turn during PVC Mode.</TextBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="Game" Visibility="Hidden">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="75*" />
+                <ColumnDefinition Width="25*" />
+                <ColumnDefinition Width="40*" />
+            </Grid.ColumnDefinitions>
+            <StackPanel Grid.Column="0" Background="Coral">
+                <StackPanel Orientation="Horizontal" x:Name="Row_one" Height="60"></StackPanel>
+                <StackPanel Orientation="Horizontal" x:Name="Row_two" Height="60"></StackPanel>
+                <StackPanel Orientation="Horizontal" x:Name="Row_three" Height="60"></StackPanel>
+                <StackPanel Orientation="Horizontal" x:Name="Row_four" Height="60"></StackPanel>
+                <Label x:Name="Turn_Label" Height="60" FontSize="20" VerticalContentAlignment="Center" HorizontalContentAlignment="Center"></Label>
+            </StackPanel>
+            <StackPanel Grid.Column="1" Background="CadetBlue">
+                <Button x:Name="row_one_btn"
+                        Click="Row_one_btn_Click"
+                        Margin="10 20">Row 1</Button>
+                <Button x:Name="row_two_btn"
+                        Click="Row_two_btn_Click"
+                        Margin="10 20">Row 2</Button>
+                <Button x:Name="row_three_btn"
+                        Click="Row_three_btn_Click"
+                        Margin="10 20">Row 3</Button>
+                <Button x:Name="row_four_btn"
+                        Click="Row_four_btn_Click"
+                        Margin="10 20">Row 4</Button>
+                <Button x:Name="endTurn_btn"
+                        Click="EndTurn_btn_Click"
+                        Margin="10 20">End Turn</Button>
+                <Label x:Name="playerTurnLabel"
+                       
+                        Margin="10 0"></Label>
+            </StackPanel>
+            <StackPanel Grid.Column="2">
+                <Label FontSize="16" FontWeight="Bold" FontStyle="Italic">Rules of Nim:</Label>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">1.Each player takes any amount of matches from one row.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">2.You can only take matches from the row you pick at first and ONLY that row.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">3.The next player takes their turn.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">4.The player who takes the last match loses.</TextBox>
+                <TextBox TextWrapping="Wrap" IsHitTestVisible="False">*Computer automatically takes their turn during PVC Mode.</TextBox>
+            </StackPanel>
+        </Grid>
+
+        <Grid x:Name="EndScreen"
+              Background="Coral"
+              Visibility="Hidden">
+            <StackPanel>
+                <Label x:Name="Win_Announce"
+                       HorizontalAlignment="Center"
+                       FontSize="40"
+                       FontWeight="Bold"
+                       Margin="10 50">Test Content</Label>
+                <Label FontSize="24"
+                       HorizontalAlignment="Center">Play Again?</Label>
+                <StackPanel Orientation="Horizontal"
+                            HorizontalAlignment="Center">
+                    <Button x:Name="Yes_Click_Button"
+                            Click="Yes_Click"
+                            Margin="20 20"
+                            Width="100"
+                            Height="25">Yes</Button>
+                    <Button x:Name="No_Click_Button"
+                            Click="No_Click"
+                            Margin="20 20"
+                            Width="100"
+                            Height="25">No</Button>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</Window>
